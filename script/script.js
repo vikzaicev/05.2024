@@ -2,6 +2,7 @@ import { isValid } from "./function.js";
 import { Question } from "./url.js";
 import { createModal } from "./function.js";
 import { getAuthForm } from "./auth.js";
+import { aythWithEmailAndPassword } from "./auth.js";
 
 
 const form = document.getElementById('form');
@@ -37,6 +38,23 @@ form.addEventListener('submit', (event) => {
     Question.renderList()
 
 })
+
+function authFormHandler(e) {
+    e.preventDefault();
+
+    const email = e.target.querySelector('#email-input').value;
+    const password = e.target.querySelector('#password-input').value;
+
+    aythWithEmailAndPassword(email, password)
+        .then(Question.fetch)
+        .then(renderModalAfterAuth)
+}
+
+function renderModalAfterAuth(content) {
+    console.log(content);
+}
 function openModal() {
     createModal("авторизация", getAuthForm())
+    document.getElementById('auth-form')
+        .addEventListener('submit', authFormHandler, { once: true })
 }
