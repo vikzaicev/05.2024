@@ -26,5 +26,6 @@ export function aythWithEmailAndPassword(email, password) {
         }
     )
         .then(response => response.json())
-        .then(data => console.log(data.idToken))
+        .then(data => data.idToken)
+    console.log(data);
 }

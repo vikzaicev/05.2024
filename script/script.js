@@ -42,16 +42,26 @@ form.addEventListener('submit', (event) => {
 function authFormHandler(e) {
     e.preventDefault();
 
+    const btnM = e.target.querySelector('button')
     const email = e.target.querySelector('#email-input').value;
     const password = e.target.querySelector('#password-input').value;
 
+    btnM.disabled = true
     aythWithEmailAndPassword(email, password)
         .then(Question.fetch)
         .then(renderModalAfterAuth)
+        .then(() => btnM.disabled = false)
 }
 
 function renderModalAfterAuth(content) {
     console.log(content);
+    if (typeof content === !'string') {
+        createModal('Список вопросов', Question.listToHTML(content))
+
+    }
+    else {
+        createModal('Ошибка', Question.listToHTML(content))
+    }
 }
 function openModal() {
     createModal("авторизация", getAuthForm())
